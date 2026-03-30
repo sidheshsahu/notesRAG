@@ -1,0 +1,3 @@
+from haystack_integrations.document_stores.pinecone import PineconeDocumentStore
+from haystack_integrations.components.embedders.google_genai import GoogleGenAIDocumentEmbedder,GoogleGenAITextEmbedder 
+
