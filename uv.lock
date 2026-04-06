@@ -1074,6 +1074,7 @@ dependencies = [
     { name = "haystack-ai" },
     { name = "pinecone-haystack" },
     { name = "pypdf" },
+    { name = "python-dotenv" },
     { name = "requests" },
 ]
 
@@ -1084,6 +1085,7 @@ requires-dist = [
     { name = "haystack-ai", specifier = ">=2.26.1" },
     { name = "pinecone-haystack", specifier = ">=6.1.2" },
     { name = "pypdf", specifier = ">=6.9.2" },
+    { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "requests", specifier = ">=2.33.0" },
 ]
 
