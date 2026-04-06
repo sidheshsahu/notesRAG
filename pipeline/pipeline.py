@@ -7,6 +7,7 @@ from haystack.components.builders import PromptBuilder
 from haystack.components.converters import PyPDFToDocument
 from pathlib import Path
 from haystack.components.preprocessors import DocumentSplitter
+from haystack_integrations.components.retrievers.pinecone import PineconeEmbeddingRetriever
 
 prompt_template = """
 According to the contents:

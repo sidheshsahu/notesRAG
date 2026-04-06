@@ -5,8 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "assemblyai>=0.59.0",
     "google-genai-haystack>=3.11.0",
     "haystack-ai>=2.26.1",
     "pinecone-haystack>=6.1.2",
     "pypdf>=6.9.2",
+    "requests>=2.33.0",
 ]
