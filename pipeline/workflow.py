@@ -20,7 +20,7 @@ from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from data.audio_text import transcribe_audio
-
+from langchain_classic.schema import Document
 
 load_dotenv()
 
@@ -30,18 +30,18 @@ def format_docs(docs):
 
 
 def rag_pipeline(query, file_path):
-    loader = PyPDFLoader(file_path)
-    documents = loader.load()
+    transcript = transcribe_audio(file_path)
+    doc = Document(page_content=transcript, metadata={"source": "audio_file"})
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-    texts = text_splitter.split_documents(documents)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=30, chunk_overlap=5)
+    texts = text_splitter.split_documents([doc])
 
     embedder = GoogleGenerativeAIEmbeddings(
         model="gemini-embedding-2-preview", output_dimensionality=384
     )
 
     vectorstore = PineconeVectorStore.from_documents(
-        texts, embedder, index_name=create_index
+        texts, embedder, index_name=create_index()
     )
 
     retriever = vectorstore.as_retriever(
@@ -57,5 +57,13 @@ def rag_pipeline(query, file_path):
 
     parser = StrOutputParser()
     output = rag_chain | template() | llm() | parser
-    result = output.invoke("What is outcome from proposal?")
+    result = output.invoke(query)
     return result
+
+
+print(
+    rag_pipeline(
+        "What is name of 2nd Speaker?",
+        r"D:\notesRAG\notesRAG\audio.mp3",
+    )
+)
