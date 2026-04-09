@@ -6,9 +6,10 @@ import os
 load_dotenv()
 
 
-def transcribe_audio(file_path):
-    api_key = os.getenv("ASSEMBLYAI_API_KEY")
+api_key = os.getenv("ASSEMBLYAI_API_KEY")
 
+
+def transcribe_audio(file_path):
     base_url = "https://api.assemblyai.com"
 
     headers = {"authorization": api_key}
@@ -35,7 +36,6 @@ def transcribe_audio(file_path):
         transcription_result = requests.get(polling_endpoint, headers=headers).json()
 
         if transcription_result["status"] == "completed":
-            print(f"Transcript ID: {transcript_id}")
             break
 
         elif transcription_result["status"] == "error":
@@ -44,8 +44,12 @@ def transcribe_audio(file_path):
         else:
             time.sleep(3)
 
+    final_text = ""
+
     for utterance in transcription_result["utterances"]:
-        print(f"Speaker {utterance['speaker']}: {utterance['text']}")
+        final_text += f"Speaker {utterance['speaker']}: {utterance['text']}\n"
+
+    return final_text
 
 
-print(transcribe_audio(r"D:\notesRAG\notesRAG\audio.mp3"))
+# print(transcribe_audio(r"audio.mp3"))
