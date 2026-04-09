@@ -5,42 +5,47 @@ import os
 
 load_dotenv()
 
-api_key = os.getenv("ASSEMBLYAI_API_KEY")
 
-base_url = "https://api.assemblyai.com"
+def transcribe_audio(file_path):
+    api_key = os.getenv("ASSEMBLYAI_API_KEY")
 
-headers = {"authorization": api_key}
+    base_url = "https://api.assemblyai.com"
 
-with open("./audio.mp3", "rb") as f:
-    response = requests.post(base_url + "/v2/upload", headers=headers, data=f)
+    headers = {"authorization": api_key}
 
-upload_url = response.json()["upload_url"]
+    with open(file_path, "rb") as f:
+        response = requests.post(base_url + "/v2/upload", headers=headers, data=f)
 
-data = {
-    "audio_url": upload_url,
-    "speech_models": ["universal-3-pro", "universal-2"],
-    "language_detection": True,
-    "speaker_labels": True,
-}
+    upload_url = response.json()["upload_url"]
 
-url = base_url + "/v2/transcript"
-response = requests.post(url, json=data, headers=headers)
+    data = {
+        "audio_url": upload_url,
+        "speech_models": ["universal-3-pro", "universal-2"],
+        "language_detection": True,
+        "speaker_labels": True,
+    }
 
-transcript_id = response.json()["id"]
-polling_endpoint = base_url + "/v2/transcript/" + transcript_id
+    url = base_url + "/v2/transcript"
+    response = requests.post(url, json=data, headers=headers)
 
-while True:
-    transcription_result = requests.get(polling_endpoint, headers=headers).json()
+    transcript_id = response.json()["id"]
+    polling_endpoint = base_url + "/v2/transcript/" + transcript_id
 
-    if transcription_result["status"] == "completed":
-        print(f"Transcript ID: {transcript_id}")
-        break
+    while True:
+        transcription_result = requests.get(polling_endpoint, headers=headers).json()
 
-    elif transcription_result["status"] == "error":
-        raise RuntimeError(f"Transcription failed: {transcription_result['error']}")
+        if transcription_result["status"] == "completed":
+            print(f"Transcript ID: {transcript_id}")
+            break
 
-    else:
-        time.sleep(3)
+        elif transcription_result["status"] == "error":
+            raise RuntimeError(f"Transcription failed: {transcription_result['error']}")
 
-for utterance in transcription_result["utterances"]:
-    print(f"Speaker {utterance['speaker']}: {utterance['text']}")
+        else:
+            time.sleep(3)
+
+    for utterance in transcription_result["utterances"]:
+        print(f"Speaker {utterance['speaker']}: {utterance['text']}")
+
+
+print(transcribe_audio(r"D:\notesRAG\notesRAG\audio.mp3"))
