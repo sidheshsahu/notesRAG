@@ -59,11 +59,3 @@ def rag_pipeline(query, file_path):
     output = rag_chain | template() | llm() | parser
     result = output.invoke(query)
     return result
-
-
-print(
-    rag_pipeline(
-        "What is name of 2nd Speaker?",
-        r"D:\notesRAG\notesRAG\audio.mp3",
-    )
-)

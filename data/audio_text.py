@@ -50,6 +50,3 @@ def transcribe_audio(file_path):
         final_text += f"Speaker {utterance['speaker']}: {utterance['text']}\n"
 
     return final_text
-
-
-# print(transcribe_audio(r"audio.mp3"))
