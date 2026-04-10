@@ -17,7 +17,9 @@ dependencies = [
     "langchain-pinecone>=0.2.13",
     "langsmith[claude-agent-sdk]>=0.7.25",
     "pinecone-haystack>=6.1.2",
+    "pymupdf>=1.27.2.2",
     "pypdf>=6.9.2",
     "python-dotenv>=1.2.2",
     "requests>=2.33.0",
+    "streamlit>=1.56.0",
 ]
