@@ -33,11 +33,11 @@ def rag_pipeline(query, file_path):
     transcript = transcribe_audio(file_path)
     doc = Document(page_content=transcript, metadata={"source": "audio_file"})
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=30, chunk_overlap=5)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=50, chunk_overlap=5)
     texts = text_splitter.split_documents([doc])
 
-    embedder = GoogleGenerativeAIEmbeddings(
-        model="gemini-embedding-2-preview", output_dimensionality=384
+    embedder = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
     vectorstore = PineconeVectorStore.from_documents(
@@ -59,3 +59,8 @@ def rag_pipeline(query, file_path):
     output = rag_chain | template() | llm() | parser
     result = output.invoke(query)
     return result
+
+
+
+result = rag_pipeline("Explain in detail about module.", r"D:\notesRAG\notesRAG\speech.mp3")
+print(result)
