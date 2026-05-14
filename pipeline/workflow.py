@@ -60,7 +60,5 @@ def rag_pipeline(query, file_path):
     result = output.invoke(query)
     return result
 
-
-
 result = rag_pipeline("Explain in detail about module.", r"D:\notesRAG\notesRAG\speech.mp3")
 print(result)

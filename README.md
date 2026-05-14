@@ -22,15 +22,6 @@ What is working right now:
 - Vector storage and retrieval with Pinecone
 - Final answer generation with Groq
 
-What is still rough / under active development:
-
-- The pipeline creates/uses a single Pinecone index directly during runtime
-- There is no persistent session or document management yet
-- Error handling is minimal
-- There are utility scripts in `tools/` that look experimental and are not yet integrated into the app flow
-- There are no formal tests yet
-- Some dependency choices are broader than the currently used code path
-
 ## Project Flow
 
 The current application flow is:
@@ -53,7 +44,6 @@ Main implementation files:
 - LangChain
 - AssemblyAI
 - Pinecone
-- Google Generative AI embeddings
 - Groq
 
 ## Setup
@@ -83,7 +73,6 @@ Create a `.env` file in the project root with the keys used by the current code:
 ASSEMBLYAI_API_KEY=your_assemblyai_key
 PINECONE_API_KEY=your_pinecone_key
 GROQ_API_KEY=your_groq_key
-GEMINI_API_KEY=your_google_ai_key
 
 LANGSMITH_TRACING=true
 LANGSMITH_ENDPOINT=https://api.smith.langchain.com
@@ -96,7 +85,6 @@ Notes:
 - `ASSEMBLYAI_API_KEY` is used for transcription
 - `PINECONE_API_KEY` is used to create/access the vector index
 - `GROQ_API_KEY` is used for final answer generation
-- `GEMINI_API_KEY` is used for embeddings
 - LangSmith variables are optional for tracing, but included in the current setup
 
 ## Running the App
